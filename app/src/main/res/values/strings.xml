@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">AndroidSecured</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_sign_in">Sign In</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_calendar">Calendar</string>
+    <string name="menu_event">New Event</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_sign_out">Sign Out</string>
+
+    <string name="please_wait">Please wait</string>
+
+    <!---->
+    <!--    HOME SCREEN-->
+    <!--    -->
+    <string name="welcome">Welcome!</string>
+    <string name="please_sign_in">Please sign in</string>
+
+
+    <!---->
+    <!--    EVENTS SCREEN-->
+    <!--    -->
+    <string name="events_title">Mes Rendez-vous</string>
+    <string name="no_events">Aucun RDV n\'est prévu</string>
+    <string name="events_start">Start : %1$s</string>
+    <string name="events_end">End : %1$s</string>
+
+    <!---->
+    <!--    CALENDAR SCREEN-->
+    <!--    -->
+    <string name="calendar_title">Jours fériés</string>
+    <string name="calendar_no_holidays">Aucun jour férié</string>
+</resources>

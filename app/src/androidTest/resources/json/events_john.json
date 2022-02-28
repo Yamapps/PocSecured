@@ -1,0 +1,278 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('y.amrani%40outlook.com')/calendarView",
+  "value": [
+    {
+      "@odata.etag": "W/\"Y/vpvzr0TkCiyMKGFPWy+QAChrk1ew==\"",
+      "id": "AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY-vpvzr0TkCiyMKGFPWy_QAAAgENAAAAY-vpvzr0TkCiyMKGFPWy_QACa6BqiQAAAA==",
+      "createdDateTime": "2019-02-25T08:02:23.8975973Z",
+      "lastModifiedDateTime": "2019-04-06T08:05:55.9208231Z",
+      "changeKey": "Y/vpvzr0TkCiyMKGFPWy+QAChrk1ew==",
+      "categories": [],
+      "transactionId": null,
+      "originalStartTimeZone": "W. Europe Standard Time",
+      "originalEndTimeZone": "W. Europe Standard Time",
+      "iCalUId": "040000008200E00074C5B7101A82E00800000000F59CE070E0CCD401000000000000000010000000F2BC39B5797B8448B945CEA0D17755F6",
+      "reminderMinutesBeforeStart": 60,
+      "isReminderOn": true,
+      "hasAttachments": true,
+      "subject": "Réservation auprès de Informativer workshop",
+      "bodyPreview": "Réservation auprès de Informativer workshop\r\nCode de réservation : 904818694\r\n\r\nRéservation pour : Jemesh Benesh\r\n\r\nModifier la réservation\r\n\r\nOutlook a ajouté automatiquement cet événement à votre calendrier par courrier.",
+      "importance": "normal",
+      "sensitivity": "private",
+      "isAllDay": false,
+      "isCancelled": false,
+      "isOrganizer": true,
+      "responseRequested": true,
+      "seriesMasterId": null,
+      "showAs": "busy",
+      "type": "singleInstance",
+      "webLink": "https://outlook.live.com/owa/?itemid=AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY%2Fvpvzr0TkCiyMKGFPWy%2BQAAAgENAAAAY%2Fvpvzr0TkCiyMKGFPWy%2BQACa6BqiQAAAA%3D%3D&exvsurl=1&path=/calendar/item",
+      "onlineMeetingUrl": null,
+      "isOnlineMeeting": false,
+      "onlineMeetingProvider": "unknown",
+      "allowNewTimeProposals": true,
+      "occurrenceId": null,
+      "isDraft": false,
+      "hideAttendees": false,
+      "responseStatus": {
+        "response": "organizer",
+        "time": "0001-01-01T00:00:00Z"
+      },
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div style=\"font-family:Segoe UI; font-size:11pt; text-align:center\">\r\n<div style=\"padding-top:15px\"><span style=\"font-size:14pt\">Réservation auprès de Informativer workshop</span><br>\r\nCode de réservation&nbsp;: 904818694</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div>Réservation pour&nbsp;: Jemesh Benesh</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div><a href=\"https://www.eventbrite.com/mytickets/904818694?utm_campaign=order_confirm&amp;utm_medium=email&amp;ref=eemailordconf&amp;utm_source=eb_email&amp;utm_term=googlenow\" style=\"text-decoration:none; color:#0078D7\">Modifier la réservation</a></div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div style=\"font-size:10pt; color:#666666\">Outlook a ajouté automatiquement cet événement à votre calendrier par courrier.</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      },
+      "start": {
+        "dateTime": "2019-04-05T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2019-04-05T20:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "location": {
+        "displayName": "Berlijn",
+        "locationUri": "",
+        "locationType": "default",
+        "uniqueId": "Berlijn",
+        "uniqueIdType": "private",
+        "address": {
+          "street": "Weisesr. 53 Berlijn",
+          "city": "Berlijn",
+          "state": "Berlijn",
+          "countryOrRegion": "DE",
+          "postalCode": ""
+        },
+        "coordinates": {}
+      },
+      "locations": [
+        {
+          "displayName": "Berlijn",
+          "locationUri": "",
+          "locationType": "default",
+          "uniqueId": "Berlijn",
+          "uniqueIdType": "private",
+          "address": {
+            "street": "Weisesr. 53 Berlijn",
+            "city": "Berlijn",
+            "state": "Berlijn",
+            "countryOrRegion": "DE",
+            "postalCode": ""
+          },
+          "coordinates": {}
+        }
+      ],
+      "recurrence": null,
+      "attendees": [],
+      "organizer": {
+        "emailAddress": {
+          "name": "Youssef AMRANI 1",
+          "address": "y.amrani@outlook.com"
+        }
+      },
+      "onlineMeeting": null
+    },
+    {
+      "@odata.etag": "W/\"Y/vpvzr0TkCiyMKGFPWy+QACycmDrg==\"",
+      "id": "AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY-vpvzr0TkCiyMKGFPWy_QAAAgENAAAAY-vpvzr0TkCiyMKGFPWy_QACya09cgAAAA==",
+      "createdDateTime": "2019-07-30T10:48:34.4707377Z",
+      "lastModifiedDateTime": "2019-07-31T05:21:01.967885Z",
+      "changeKey": "Y/vpvzr0TkCiyMKGFPWy+QACycmDrg==",
+      "categories": [],
+      "transactionId": null,
+      "originalStartTimeZone": "UTC",
+      "originalEndTimeZone": "UTC",
+      "iCalUId": "040000008200E00074C5B7101A82E0080000000072ABD355C446D50100000000000000001000000046492DEC97EBA9428A9FA228D10395FB",
+      "reminderMinutesBeforeStart": 0,
+      "isReminderOn": false,
+      "hasAttachments": false,
+      "subject": "Colis de Amazon",
+      "bodyPreview": "Colis de Amazon\r\nRéférence de la commande : 403-3079243-8609150\r\n\r\nWindows 10 professionnel 32/64 bits Microsoft | Licence Français | Clé d'activation originale | Livraison par e-mail\r\nLivraison prévue le : mardi, juillet 30\r\n\r\namazon logistics CIO0355105",
+      "importance": "normal",
+      "sensitivity": "private",
+      "isAllDay": true,
+      "isCancelled": false,
+      "isOrganizer": true,
+      "responseRequested": true,
+      "seriesMasterId": null,
+      "showAs": "free",
+      "type": "singleInstance",
+      "webLink": "https://outlook.live.com/owa/?itemid=AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY%2Fvpvzr0TkCiyMKGFPWy%2BQAAAgENAAAAY%2Fvpvzr0TkCiyMKGFPWy%2BQACya09cgAAAA%3D%3D&exvsurl=1&path=/calendar/item",
+      "onlineMeetingUrl": null,
+      "isOnlineMeeting": false,
+      "onlineMeetingProvider": "unknown",
+      "allowNewTimeProposals": true,
+      "occurrenceId": null,
+      "isDraft": false,
+      "hideAttendees": false,
+      "responseStatus": {
+        "response": "organizer",
+        "time": "0001-01-01T00:00:00Z"
+      },
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div style=\"font-family:Segoe UI; font-size:11pt; text-align:center\">\r\n<div style=\"padding-top:15px\"><span style=\"font-size:14pt\">Colis de Amazon</span><br>\r\nRéférence de la commande&nbsp;: 403-3079243-8609150</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div>Windows 10 professionnel 32/64 bits Microsoft | Licence Français | Clé d'activation originale | Livraison par e-mail<br>\r\nLivraison prévue le&nbsp;: mardi, juillet 30</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div>amazon logistics CIO035510583<br>\r\n<a href=\"https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.amazon.fr%2Fgp%2Ff.html%3FC%3DIW68UO1IUKWI%26K%3D17JNQB6FR8TKZ%26M%3Durn%3Artn%3Amsg%3A20190730104824fd1521ea71f2494a9f31b4649d60p0eu%26R%3D30RRJSHKQ0G7I%26T%3DC%26U%3Dhttps%253A%252F%252Fwww.amazon.fr%252Fgp%252Fcss%252Fshiptrack%252Fview.html%252Fref%253Dpe_3044141_189395771_TE_typ%253Fie%253DUTF8%2526addressID%253Djpsorxosqjn%2526latestArrivalDate%253D1564509600%2526orderID%253D403-3079243-8609150%2526shipmentDate%253D1564483335%2526orderingShipmentId%253D20051609749302%2526packageId%253D1%26H%3DE4ZTWVKL2AQAOAO2RIT2C13VWISA%26ref_%3Dpe_3044141_189395771_TE_typ&amp;data=02%7C01%7C%7Ced0ade1072e84522f73f08d714db76cc%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637000805124640050&amp;sdata=5yBx7njl6woX4u1l%2FuLNtd257NWuuuXApBL8MaHTU1Y%3D&amp;reserved=0\" style=\"text-decoration:none; color:#0078d7\">Suivre\r\n le colis</a></div>\r\n<div height=\"30px\">&nbsp;</div>\r\n<div style=\"font-size:10pt; color:#666666\">Outlook a ajouté automatiquement cet événement à votre calendrier à partir du courrier.</div>\r\n<div height=\"30px\">&nbsp;</div>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      },
+      "start": {
+        "dateTime": "2019-07-30T00:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2019-07-31T00:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "location": {
+        "displayName": "32 avenue Daumesnil Paris, 75012 France",
+        "locationUri": "",
+        "locationType": "default",
+        "uniqueId": "32 avenue Daumesnil Paris, 75012 France",
+        "uniqueIdType": "private",
+        "address": {
+          "street": "32 avenue Daumesnil Paris, 75012 France",
+          "city": "",
+          "state": "",
+          "countryOrRegion": "",
+          "postalCode": ""
+        },
+        "coordinates": {}
+      },
+      "locations": [
+        {
+          "displayName": "32 avenue Daumesnil Paris, 75012 France",
+          "locationUri": "",
+          "locationType": "default",
+          "uniqueId": "32 avenue Daumesnil Paris, 75012 France",
+          "uniqueIdType": "private",
+          "address": {
+            "street": "32 avenue Daumesnil Paris, 75012 France",
+            "city": "",
+            "state": "",
+            "countryOrRegion": "",
+            "postalCode": ""
+          },
+          "coordinates": {}
+        }
+      ],
+      "recurrence": null,
+      "attendees": [],
+      "organizer": {
+        "emailAddress": {
+          "name": "Youssef AMRANI 2",
+          "address": "y.amrani@outlook.com"
+        }
+      },
+      "onlineMeeting": null
+    },
+    {
+      "@odata.etag": "W/\"Y/vpvzr0TkCiyMKGFPWy+QAFGQt5Pg==\"",
+      "id": "AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY-vpvzr0TkCiyMKGFPWy_QAAAgENAAAAY-vpvzr0TkCiyMKGFPWy_QAFGSYJBQAAAA==",
+      "createdDateTime": "2022-01-11T10:02:55.5868704Z",
+      "lastModifiedDateTime": "2022-01-11T10:04:57.0588117Z",
+      "changeKey": "Y/vpvzr0TkCiyMKGFPWy+QAFGQt5Pg==",
+      "categories": [],
+      "transactionId": "9a20dff3-7ee0-20d3-8e0c-b34cac18eb8b",
+      "originalStartTimeZone": "Romance Standard Time",
+      "originalEndTimeZone": "Romance Standard Time",
+      "iCalUId": "040000008200E00074C5B7101A82E00800000000203E7267D206D801000000000000000010000000553EE1BCD7010A4099C5CF543572A018",
+      "reminderMinutesBeforeStart": 0,
+      "isReminderOn": true,
+      "hasAttachments": false,
+      "subject": "RDV test",
+      "bodyPreview": "",
+      "importance": "normal",
+      "sensitivity": "normal",
+      "isAllDay": false,
+      "isCancelled": false,
+      "isOrganizer": true,
+      "responseRequested": true,
+      "seriesMasterId": null,
+      "showAs": "busy",
+      "type": "singleInstance",
+      "webLink": "https://outlook.live.com/owa/?itemid=AQMkADAwATY0MDABLThhYmQtMjRmZgAtMDACLTAwCgBGAAADspCHoWZJZ0Oylw12MrbpQwcAY%2Fvpvzr0TkCiyMKGFPWy%2BQAAAgENAAAAY%2Fvpvzr0TkCiyMKGFPWy%2BQAFGSYJBQAAAA%3D%3D&exvsurl=1&path=/calendar/item",
+      "onlineMeetingUrl": null,
+      "isOnlineMeeting": false,
+      "onlineMeetingProvider": "unknown",
+      "allowNewTimeProposals": true,
+      "occurrenceId": null,
+      "isDraft": false,
+      "hideAttendees": false,
+      "responseStatus": {
+        "response": "organizer",
+        "time": "0001-01-01T00:00:00Z"
+      },
+      "body": {
+        "contentType": "html",
+        "content": ""
+      },
+      "start": {
+        "dateTime": "2022-01-13T11:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2022-01-13T11:30:00.0000000",
+        "timeZone": "UTC"
+      },
+      "location": {
+        "displayName": "32 avenue Daumesnil \r Paris, 75012 \r France",
+        "locationUri": "",
+        "locationType": "default",
+        "uniqueId": "32 avenue Daumesnil \r Paris, 75012 \r France",
+        "uniqueIdType": "private",
+        "address": {
+          "street": "32 avenue Daumesnil Paris, 75012 France",
+          "city": "",
+          "state": "",
+          "countryOrRegion": "",
+          "postalCode": ""
+        },
+        "coordinates": {}
+      },
+      "locations": [
+        {
+          "displayName": "32 avenue Daumesnil \r Paris, 75012 \r France",
+          "locationUri": "",
+          "locationType": "default",
+          "uniqueId": "32 avenue Daumesnil \r Paris, 75012 \r France",
+          "uniqueIdType": "private",
+          "address": {
+            "street": "32 avenue Daumesnil Paris, 75012 France",
+            "city": "",
+            "state": "",
+            "countryOrRegion": "",
+            "postalCode": ""
+          },
+          "coordinates": {}
+        }
+      ],
+      "recurrence": null,
+      "attendees": [],
+      "organizer": {
+        "emailAddress": {
+          "name": "Youssef AMRANI 3",
+          "address": "y.amrani@outlook.com"
+        }
+      },
+      "onlineMeeting": null
+    }
+  ]
+}

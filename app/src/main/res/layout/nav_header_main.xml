@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout style="@style/NavHeaderContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/nav_header_image"
+        style="@style/NavHeaderImage"
+        android:contentDescription="@string/nav_header_desc"
+        app:layout_constraintBottom_toTopOf="@+id/nav_header_username"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/nav_header_username"
+        style="@style/NavHeaderUsername"
+        app:layout_constraintBottom_toTopOf="@+id/nav_header_email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="User name"/>
+
+    <TextView
+        android:id="@+id/nav_header_email"
+        style="@style/NavHeaderEmail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="test@email.com"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

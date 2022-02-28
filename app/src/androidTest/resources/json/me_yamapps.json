@@ -1,0 +1,16 @@
+{
+  "@odata.context": "https:\/\/graph.microsoft.com\/v1.0\/$metadata#users\/$entity",
+  "businessPhones": [
+    "0102020202"
+  ],
+  "displayName": "Yamapps Consulting",
+  "givenName": "Consulting",
+  "jobTitle": "Ingénieur",
+  "mail": "test@yamapps.fr",
+  "mobilePhone": "0601010101",
+  "officeLocation": "0102030405",
+  "preferredLanguage": null,
+  "surname": "Yamapps",
+  "userPrincipalName": "yamapps@yamappsad.onmicrosoft.com",
+  "id": "69f21d3d-8b9a-4684-bcfe-040e42491111"
+}

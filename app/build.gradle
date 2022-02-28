@@ -1,0 +1,108 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.amf.pocsecured"
+
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCodeBase
+        versionName "$rootProject.versionName"
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "com.amf.pocsecured.CustomTestRunner"
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources true
+        }
+    }
+}
+
+dependencies {
+
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.navigation:navigation-fragment:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui:$navigationVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion"
+
+    // MSAL
+    implementation "com.microsoft.identity.client:msal:$msalVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-jackson:$jacksonConverterVersion"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjavaVersion"
+
+    //Joda
+    implementation "joda-time:joda-time:$jodaTimeVersion"
+
+    // Timber
+    api "com.jakewharton.timber:timber:$timberVersion"
+
+    // MultiDex
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+
+    // Dagger
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    // Espresso
+    implementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+
+    /*
+     * Test dependencies ----
+     */
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "androidx.test.ext:junit:$junitAndroidxVersion"
+    testImplementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    testImplementation "com.google.code.gson:gson:$gsonVersion"
+    testImplementation "org.skyscreamer:jsonassert:$jsonassertVersion"
+
+    /*
+     * Android Test dependencies ----
+     */
+    androidTestImplementation "androidx.test.ext:junit:$junitAndroidxVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoCoreVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    androidTestImplementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+}

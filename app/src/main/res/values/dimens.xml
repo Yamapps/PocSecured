@@ -1,0 +1,37 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="main_drawer_icon_marginVertical">5dp</dimen>
+    <dimen name="main_drawer_icon_marginHorizontal">15dp</dimen>
+
+    <dimen name="ic_drawable_size">24dp</dimen>
+
+    <!---->
+    <!--GENERIC -->
+    <!---->
+    <dimen name="list_card_corner_radius">0dp</dimen>
+    <dimen name="list_card_no_elevation">0dp</dimen>
+    <dimen name="list_card_default_elevation">5dp</dimen>
+    <dimen name="list_card_default_margin">5dp</dimen>
+    <dimen name="list_card_default_padding">5dp</dimen>
+
+    <!--    -->
+    <!--    EVENT SCREEN-->
+    <!--    -->
+    <dimen name="event_list_item_marginTop">10dp</dimen>
+
+    <!--    -->
+    <!--    CALENDAR SCREEN-->
+    <!--    -->
+    <dimen name="holiday_day_background_size">38dp</dimen>
+    <dimen name="holiday_label_marginStart">10dp</dimen>
+    <dimen name="holiday_padding_vertical">5dp</dimen>
+
+
+</resources>

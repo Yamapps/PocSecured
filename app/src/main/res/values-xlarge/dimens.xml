@@ -1,0 +1,8 @@
+<resources>
+
+    <!--    -->
+    <!--    CALENDAR SCREEN-->
+    <!--    -->
+    <dimen name="holiday_day_background_size">50dp</dimen>
+
+</resources>

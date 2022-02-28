@@ -1,0 +1,14 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
+  "businessPhones": [],
+  "displayName": "GOINDIN Julien",
+  "givenName": "Julien",
+  "jobTitle": null,
+  "mail": "E031861@arcelormittal.net",
+  "mobilePhone": "0764839916",
+  "officeLocation": null,
+  "preferredLanguage": null,
+  "surname": "GOINDIN",
+  "userPrincipalName": "E031861@arcelormittal.net",
+  "id": "ac39dea8-d2fa-4226-b4ca-2d6f8f559d77"
+}

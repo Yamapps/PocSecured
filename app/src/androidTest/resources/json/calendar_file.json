@@ -1,0 +1,46 @@
+[
+  {
+    "date": "2022-01-01T00:00:00",
+    "label": "1er janvier"
+  },
+  {
+    "date": "2022-04-18T00:00:00",
+    "label": "Lundi de Pâques"
+  },
+  {
+    "date": "2022-05-01T00:00:00",
+    "label": "Fête du Travail"
+  },
+  {
+    "date": "2022-05-08T00:00:00",
+    "label": "Victoire des alliés"
+  },
+  {
+    "date": "2022-05-26T00:00:00",
+    "label": "Ascension"
+  },
+  {
+    "date": "2022-06-06T00:00:00",
+    "label": "Lundi de Pentecôte"
+  },
+  {
+    "date": "2022-07-14T00:00:00",
+    "label": "Fête Nationale"
+  },
+  {
+    "date": "2022-08-15T00:00:00",
+    "label": "Assomption"
+  },
+  {
+    "date": "2022-11-01T00:00:00",
+    "label": "Toussaint"
+  },
+  {
+    "date": "2022-11-11T00:00:00",
+    "label": "Armistice"
+  },
+  {
+    "date": "2022-12-25T00:00:00",
+    "label": "Noël"
+  }
+]

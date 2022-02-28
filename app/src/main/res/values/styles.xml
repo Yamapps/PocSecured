@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!---->
+    <!--TEXT APPEARANCES-->
+    <!---->
+
+    <style name="DefaultTextAppearance">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+        <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+
+    <style name="DefaultTextAppearance.Small" parent="DefaultTextAppearance">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
+    </style>
+
+    <style name="DefaultTextAppearance.Medium" parent="DefaultTextAppearance">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="DefaultTextAppearance.Large" parent="DefaultTextAppearance">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="DefaultTextAppearance.XLarge" parent="DefaultTextAppearance">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+    </style>
+
+    <!---->
+    <!--    TOOLBAR -->
+    <!---->
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ToolbarIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/main_drawer_icon_marginHorizontal</item>
+        <item name="android:layout_marginEnd">@dimen/main_drawer_icon_marginHorizontal</item>
+        <item name="android:layout_marginTop">@dimen/main_drawer_icon_marginVertical</item>
+        <item name="android:layout_marginBottom">@dimen/main_drawer_icon_marginVertical</item>
+        <item name="srcCompat">@drawable/ic_drawer_icon_24dp</item>
+    </style>
+
+    <style name="ToolbarText" parent="DefaultTextAppearance.Large">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+    <!--    -->
+    <!--    NAVIGATION -->
+    <!---->
+    <style name="NavHeaderContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/nav_header_height</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <style name="NavHeaderImage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/nav_header_vertical_spacing</item>
+        <item name="srcCompat">@mipmap/ic_launcher</item>
+    </style>
+
+    <style name="NavHeaderUsername" parent="DefaultTextAppearance.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/nav_header_vertical_spacing</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+    <style name="NavHeaderEmail" parent="DefaultTextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+
+    <!--    -->
+    <!--    EVENT SCREEN-->
+    <!--    -->
+
+    <style name="ListCardWhiteStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardCornerRadius">@dimen/list_card_corner_radius</item>
+        <item name="cardElevation">@dimen/list_card_no_elevation</item>
+    </style>
+
+    <style name="ListCardWhiteStyle.Elevation" parent="ListCardWhiteStyle">
+        <item name="cardElevation">@dimen/list_card_default_elevation</item>
+    </style>
+
+    <style name="ListCardWhiteStyle.Elevation.WithMargin" parent="ListCardWhiteStyle.Elevation">
+        <item name="cardElevation">@dimen/list_card_default_elevation</item>
+        <item name="android:layout_margin">@dimen/list_card_default_margin</item>
+        <item name="android:padding">@dimen/list_card_default_padding</item>
+    </style>
+
+    <style name="EventListSubject" parent="DefaultTextAppearance.Medium">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EventListOrganizer" parent="DefaultTextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/event_list_item_marginTop</item>
+    </style>
+
+    <style name="EventListDate" parent="DefaultTextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/event_list_item_marginTop</item>
+    </style>
+
+    <style name="DataEmpty" parent="DefaultTextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="DataEmpty.Events" parent="DataEmpty">
+        <item name="android:text">@string/no_events</item>
+    </style>
+
+    <style name="EventList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <!--    -->
+    <!--    HOME SCREEN-->
+    <!---->
+
+    <style name="HomeInfos" parent="@style/DefaultTextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="HomeWelcome" parent="@style/DefaultTextAppearance.Large">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:text">@string/welcome</item>
+    </style>
+
+
+    <!--    -->
+    <!--    CALENDAR SCREEN-->
+    <!---->
+    
+    <style name="DataEmpty.Calendar" parent="DataEmpty">
+        <item name="android:text">@string/calendar_no_holidays</item>
+    </style>
+
+    <style name="CalendarList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="CalendarLabel" parent="DefaultTextAppearance.Medium">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/holiday_label_marginStart</item>
+    </style>
+
+    <style name="CalendarMonth" parent="DefaultTextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/holiday_padding_vertical</item>
+    </style>
+
+    <style name="CalendarDayOfMonth" parent="DefaultTextAppearance.Large">
+        <item name="android:layout_width">@dimen/holiday_day_background_size</item>
+        <item name="android:layout_height">@dimen/holiday_day_background_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/rounded_background</item>
+    </style>
+
+    <style name="CalendarDayOfWeek" parent="DefaultTextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/holiday_padding_vertical</item>
+    </style>
+
+
+</resources>
