@@ -5,8 +5,7 @@ import android.annotation.SuppressLint;
 import com.amf.pocsecured.BuildConfig;
 import com.amf.pocsecured.mock.MockedWebServerData;
 import com.amf.pocsecured.network.DtdPlannerRetrofitApi;
-import com.amf.pocsecured.network.NetworkConstants;
-import com.amf.pocsecured.network.RetrofitApi;
+import com.amf.pocsecured.network.MSGraphRetrofitApi;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,13 +37,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 {
 
 	@Provides
-	public final RetrofitApi provideRetrofitApi(OkHttpClient okHttpClient, MockedWebServerData mockedWebServerData)
+	public final MSGraphRetrofitApi provideRetrofitApi(OkHttpClient okHttpClient, MockedWebServerData mockedWebServerData)
 	{
 		Retrofit retrofit = new Retrofit.Builder() //
 									.client(okHttpClient) //
 									.baseUrl(mockedWebServerData.getUrl()) //
 									.addConverterFactory(JacksonConverterFactory.create()).build(); //
-		return retrofit.create(RetrofitApi.class);
+		return retrofit.create(MSGraphRetrofitApi.class);
 	}
 
 	@Provides

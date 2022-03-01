@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 
 import com.amf.pocsecured.BuildConfig;
 import com.amf.pocsecured.network.DtdPlannerRetrofitApi;
+import com.amf.pocsecured.network.MSGraphRetrofitApi;
 import com.amf.pocsecured.network.NetworkConstants;
-import com.amf.pocsecured.network.RetrofitApi;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,13 +37,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 {
 
 	@Provides
-	public final RetrofitApi provideRetrofitApi(OkHttpClient okHttpClient)
+	public final MSGraphRetrofitApi provideRetrofitApi(OkHttpClient okHttpClient)
 	{
 		Retrofit retrofit = new Retrofit.Builder() //
 									.client(okHttpClient) //
 									.baseUrl(NetworkConstants.MS_GRAPH_ROOT_ENDPOINT) //
 									.addConverterFactory(JacksonConverterFactory.create()).build(); //
-		return retrofit.create(RetrofitApi.class);
+		return retrofit.create(MSGraphRetrofitApi.class);
 	}
 
 	@Provides
@@ -89,9 +89,8 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 			SSLContext sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, trustAllCerts, new SecureRandom());
 			SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-			TrustManager var10002 = trustAllCerts[0];
-			builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) var10002);
-			//			builder.hostnameVerifier(null);
+			TrustManager trustAllCert = trustAllCerts[0];
+			builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCert);
 		}
 		catch (NoSuchAlgorithmException | KeyManagementException e)
 		{

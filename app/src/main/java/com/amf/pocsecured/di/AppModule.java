@@ -9,7 +9,7 @@ import com.amf.pocsecured.data.IUserRepository;
 import com.amf.pocsecured.data.UserRepositoryImpl;
 import com.amf.pocsecured.ext.MicrosoftLoginHelper;
 import com.amf.pocsecured.network.DtdPlannerRetrofitApi;
-import com.amf.pocsecured.network.RetrofitApi;
+import com.amf.pocsecured.network.MSGraphRetrofitApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -41,7 +41,7 @@ import dagger.Provides;
 
 	@Singleton
 	@Provides
-	IUserRepository provideUserRepository(RetrofitApi retrofitApi, MicrosoftLoginHelper microsoftLoginHelper)
+	IUserRepository provideUserRepository(MSGraphRetrofitApi retrofitApi, MicrosoftLoginHelper microsoftLoginHelper)
 	{
 		return new UserRepositoryImpl(retrofitApi, microsoftLoginHelper);
 	}

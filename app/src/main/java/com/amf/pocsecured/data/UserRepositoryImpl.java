@@ -10,7 +10,7 @@ import com.amf.pocsecured.model.Event;
 import com.amf.pocsecured.model.User;
 import com.amf.pocsecured.model.mapper.EventMapper;
 import com.amf.pocsecured.model.mapper.UserMapper;
-import com.amf.pocsecured.network.RetrofitApi;
+import com.amf.pocsecured.network.MSGraphRetrofitApi;
 import com.amf.pocsecured.network.dto.EventListDto;
 import com.amf.pocsecured.network.dto.UserDto;
 
@@ -42,15 +42,15 @@ import static com.amf.pocsecured.ext.MicrosoftLoginHelper.USER_INFOS_SCOPES;
 
 public class UserRepositoryImpl implements IUserRepository
 {
-	private final RetrofitApi mRetrofitApi;
+	private final MSGraphRetrofitApi mGraphRetrofitApi;
 	private final MicrosoftLoginHelper mMicrosoftLoginHelper;
 
 	private User mCurrentUser;
 
 	@Inject
-	public UserRepositoryImpl(RetrofitApi retrofitApi, MicrosoftLoginHelper microsoftLoginHelper)
+	public UserRepositoryImpl(MSGraphRetrofitApi graphRetrofitApi, MicrosoftLoginHelper microsoftLoginHelper)
 	{
-		mRetrofitApi = retrofitApi;
+		mGraphRetrofitApi = graphRetrofitApi;
 		mMicrosoftLoginHelper = microsoftLoginHelper;
 	}
 
@@ -126,12 +126,25 @@ public class UserRepositoryImpl implements IUserRepository
 			try
 			{
 				String authHeader = "Bearer " + accessToken;
-				Response<UserDto> response = mRetrofitApi.me(authHeader).execute();
+				/*
+				 * Launch HTTP request
+				 */
+				Response<UserDto> response = mGraphRetrofitApi.me(authHeader).execute();
+
+				/*
+				 * Check if the call was successful
+				 */
 				if (response.isSuccessful())
 				{
 					UserDto userDto = response.body();
+					/*
+					 * Map the DTO object into our data model object
+					 */
 					mCurrentUser = UserMapper.mapDto(userDto);
 
+					/*
+					 * Extract user role from the Account instance retrieved during user sign-in
+					 */
 					mCurrentUser.setRole(mMicrosoftLoginHelper.getCurrentUserRole());
 
 					emitter.onNext(mCurrentUser);
@@ -139,6 +152,9 @@ public class UserRepositoryImpl implements IUserRepository
 				}
 				else
 				{
+					/*
+					 * Handle HTTP error returned by remote server
+					 */
 					Exception exception;
 					if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
 					{
@@ -152,18 +168,30 @@ public class UserRepositoryImpl implements IUserRepository
 					emitter.onError(exception);
 				}
 			}
+			/*
+			 * Handle generic exceptions thrown by the HTTP call (TimeOut, No Network...)
+			 */
 			catch (ConnectException | SocketTimeoutException e)
 			{
+				/*
+				 * A time-out occured
+				 */
 				Timber.e(e);
 				emitter.onError(new IOException("A network problem occurred.\nPlease try again later."));
 			}
 			catch (UnknownHostException e)
 			{
+				/*
+				 * No network available
+				 */
 				Timber.e(e);
 				emitter.onError(new IOException("No network available.\nPlease try again later."));
 			}
 			catch (Exception e)
 			{
+				/*
+				 * Any other generic exception
+				 */
 				Timber.e(e);
 				emitter.onError(new IOException("An error occurred during user infos request"));
 			}
@@ -231,7 +259,7 @@ public class UserRepositoryImpl implements IUserRepository
 			{
 				String authHeader = "Bearer " + accessToken;
 
-				Response<EventListDto> response = mRetrofitApi.events(authHeader).execute();
+				Response<EventListDto> response = mGraphRetrofitApi.events(authHeader).execute();
 
 				if (response.isSuccessful())
 				{

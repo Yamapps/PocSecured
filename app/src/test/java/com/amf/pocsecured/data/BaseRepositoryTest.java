@@ -4,7 +4,7 @@ import android.text.format.DateUtils;
 
 import com.amf.pocsecured.BuildConfig;
 import com.amf.pocsecured.network.DtdPlannerRetrofitApi;
-import com.amf.pocsecured.network.RetrofitApi;
+import com.amf.pocsecured.network.MSGraphRetrofitApi;
 import com.amf.pocsecured.utils.GsonUtils;
 import com.amf.pocsecured.utils.test.MockServerDispatcher;
 import com.google.gson.Gson;
@@ -36,7 +36,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 	public abstract void beforeTest();
 
-	RetrofitApi mApi;
+	MSGraphRetrofitApi mGraphRetrofitApi;
 	DtdPlannerRetrofitApi mDtdPlannerRetrofitApi;
 	protected Gson gson = GsonUtils.getGson();
 
@@ -70,7 +70,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 							   .addConverterFactory(JacksonConverterFactory.create())
 							   .build();
 
-		mApi = retrofit.create(RetrofitApi.class);
+		mGraphRetrofitApi = retrofit.create(MSGraphRetrofitApi.class);
 
 		Retrofit dtdRetrofit = new Retrofit.Builder()
 									.client(okHttpClient)

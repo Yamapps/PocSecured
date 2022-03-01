@@ -57,7 +57,7 @@ public class UserRepositoryTest extends BaseRepositoryTest
 	@Override
 	public void beforeTest()
 	{
-		userRepository = new UserRepositoryImpl(mApi, mMicrosoftLoginHelper);
+		userRepository = new UserRepositoryImpl(mGraphRetrofitApi, mMicrosoftLoginHelper);
 	}
 
 	@Test

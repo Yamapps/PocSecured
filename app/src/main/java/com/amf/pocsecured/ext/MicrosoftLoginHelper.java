@@ -79,12 +79,18 @@ import timber.log.Timber;
 					{
 						if (activeAccount != null)
 						{
+							/*
+							 * A user was previsouly signed in
+							 */
 							mAccount = activeAccount;
 							printCurrentAccount();
 							emitter.onNext(true);
 						}
 						else
 						{
+							/*
+							 * No user signed in
+							 */
 							emitter.onNext(false);
 						}
 						emitter.onComplete();
@@ -138,7 +144,8 @@ import timber.log.Timber;
 				/* Successfully got a token */
 				mAuthResult = authenticationResult;
 				mAccount = authenticationResult.getAccount();
-				emitter.onNext(mAuthResult.getAccessToken());
+				String accessToken = mAuthResult.getAccessToken();
+				emitter.onNext(accessToken);
 				emitter.onComplete();
 			}
 
@@ -173,6 +180,9 @@ import timber.log.Timber;
 			return role;
 		}
 
+		/*
+		 * We get the claims from the previously retrieved 'mAccount' instance
+		 */
 		Map<String, ?> claims = mAccount.getClaims();
 		if (claims == null || claims.isEmpty())
 		{
@@ -207,6 +217,7 @@ import timber.log.Timber;
 			@Override
 			public void onCancel()
 			{
+				/* Operation cancelled by user */
 				mAuthResult = null;
 				mAccount = null;
 				emitter.onError(new Exception("Operation cancelled"));
@@ -246,6 +257,10 @@ import timber.log.Timber;
 			@Override
 			public void onSignOut()
 			{
+				/*
+				 * User is signed out
+				 * clean signed out user infos
+				 */
 				mAccount = null;
 				mAuthResult = null;
 

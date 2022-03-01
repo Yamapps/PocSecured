@@ -2,7 +2,7 @@
 
 This is the repository for the Android secured POC. 
 
-This demo shows how to build a simple Android app that integrates the Microsoft Authenthication Library (MSAL).
+This demo shows how to build a simple Android app that integrates the Microsoft Authentication Library (MSAL).
 
 
 ## MSAL Integration
@@ -40,7 +40,7 @@ After registering your app to the Azure Portal, a config specific json file shou
 As you can see in this example, your app specific package should appear in the config data :  **com.amf.pocsecured**
 <br/>Copy this file in order to add it to your Android project. But before adding it, you will have to add this line : 
 
-```json
+```
     "account_mode" : "SINGLE"
 ```
 
@@ -52,7 +52,7 @@ Here is the final version of your config file :
         "client_id": "6f483c01-4f04-4393-89ef-b07939462101",
         "authorization_user_agent": "DEFAULT",
         "redirect_uri": "msauth://com.amf.pocsecured/q%2BPiRqOdRzucqQyP%2FOcnNoHD5tg%3D",
-        "account_mode" : "SINGLE"
+        "account_mode" : "SINGLE",
         "authorities": [
             {
                 "type": "AAD",
@@ -67,7 +67,7 @@ Here is the final version of your config file :
 
 Now you can add this file into your project, in the 'raw' directory of your app's resources : 
 
-```json
+```
     ~projectRoot/app/src/main/res/raw/auth_config_single_account.json
 ```
 
@@ -86,11 +86,11 @@ This line will download and add the MSAL library module to your project dependen
 
 #### Update Manifest
 
-First you need to declare the BrowerTabActivity used by the library for the explicit authentication.
+First you need to declare the BrowserTabActivity used by the library for the explicit authentication.
 As any other Android Activity, you must add it in you app's Manifest : 
 
 
-```groovy
+```
 <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
     <intent-filter>
         <action android:name="android.intent.action.VIEW" />
@@ -111,7 +111,7 @@ As you can see in this example, 2 fields must be configured for your specific ap
 1. **android:host** : App's package name
 2. **android:path** : Signature Hash used to register the app to Azure Portal
 
-#### Implement MicrosoftLoginHelper
+#### <ins>MSAL library initialization
 
 Now let's start implementing the MSAL authentications methods. We will focus here on 3 features : Library initialization, sign-in and sign-out.
 
@@ -119,7 +119,7 @@ All these feature must be asynchronously, so we will use in this example RxJava.
 
 First you must initialize the MSAL library. This operation will be done by calling this method :
 
-```groovy
+```
 PublicClientApplication.createSingleAccountPublicClientApplication(context, R.raw.auth_config_single_account_v3, new IPublicClientApplication.ISingleAccountApplicationCreatedListener()
 		{
 			@Override
@@ -138,17 +138,17 @@ PublicClientApplication.createSingleAccountPublicClientApplication(context, R.ra
 
 As you can see this method takes 3 params : 
 
-1. **Context context** : Android context
-2. **int configFileResourceId** : resource id for the JSON config file we generated previously
-3. **ISingleAccountApplicationCreatedListener listener** : Listener called by MSAL library with init result
+1. **Context - context** : Android context
+2. **int - configFileResourceId** : resource id for the JSON config file we generated previously
+3. **ISingleAccountApplicationCreatedListener - listener** : Listener called by MSAL library with init result
 
 If the init is successful, a **ISingleAccountPublicClientApplication** object will be returned in the **onCreated** callback.
-This object will allow you to perform the signin and signout operations.
+This object will allow you to perform the sign-in and sign-out operations.
 
-Once this init operation is done, you can check if a user was previsouly signed in and eventually retrieve its informations :
+Once this init operation is done, you can check if a user was previously signed in and eventually retrieve its information :
 
 
-```groovy
+```
 PublicClientApplication.createSingleAccountPublicClientApplication(context, R.raw.auth_config_single_account_v3, new IPublicClientApplication.ISingleAccountApplicationCreatedListener()
 		{
 			@Override
@@ -163,8 +163,7 @@ PublicClientApplication.createSingleAccountPublicClientApplication(context, R.ra
         			/*
         			 * Init failed
         			 */
-					emitter.onNext(false);
-					emitter.onComplete();
+					...
 				}
 
 
@@ -178,37 +177,22 @@ PublicClientApplication.createSingleAccountPublicClientApplication(context, R.ra
 					{
 						if (activeAccount != null)
 						{
-                			/*
-                			 * A user was indeed previsouly signed in.
-                			 * Now we must retrieve its access token
-                			 */
+							/*
+							 * A user was previsouly signed in
+							 */
 							mAccount = activeAccount;
-							mSingleAccountApp.acquireTokenSilentAsync(SCOPES, mAccount.getAuthority(), new SilentAuthenticationCallback()
-							{
-
-								@Override
-								public void onSuccess(IAuthenticationResult authenticationResult)
-								{
-									Timber.d("Successfully authenticated");
-								    Timber.d("ID Token: %s", Objects.requireNonNull(authenticationResult.getAccount().getClaims()).get("id_token"));
-									mAuthResult = authenticationResult;
-									mAccount = authenticationResult.getAccount();
-									emitter.onNext(true);
-									emitter.onComplete();
-								}
-
-								@Override
-								public void onError(MsalException exception)
-								{
-								    ...
-								}
-							});
+							printCurrentAccount();
+							...
 						}
 						else
 						{
-							emitter.onNext(true);
-							emitter.onComplete();
+						
+							/*
+							 * No user signed in
+							 */
+							...
 						}
+						...
 					}
 
 					@Override
@@ -219,7 +203,7 @@ PublicClientApplication.createSingleAccountPublicClientApplication(context, R.ra
 					@Override
 					public void onError(@NonNull MsalException exception)
 					{
-						emitter.onError(exception);
+						...
 					}
 				});
 			}
@@ -232,16 +216,792 @@ PublicClientApplication.createSingleAccountPublicClientApplication(context, R.ra
 		})
 ```
 
-As you can see in this example, 2 MSAL methods were used :
+As you can see in this example, a MSAL methods were used to retrieve the current signed in user :
 
-* **getCurrentAccountAsync()** : Gets the current account and notify if the current account changes.
-* **acquireTokenSilentAsync()** : If the current account is not null, acquires the access token withtout launching the explicit authent screen. This method takes a specific parameter called 'SCOPES', it is the list of actions allowed :
+**getCurrentAccountAsync()** : Gets the current account and notify if the current account changes.
 
-```groovy
-private final static String[] SCOPES = {"User.Read", "Calendars.Read"};
-```
 
 In this example, we allow the app read user and calendar informations.
 
-Next is the sign-in feature. Once the library is initialized and the **ISingleAccountPublicClientApplication** available, you can call the 
+#### <ins>Sign-in user
 
+Next is the sign-in feature. Note that if a user was previously signed in, there is no need to call this feature. You can immediately acquire an access token and request data from remote server. 
+
+Once the library is initialized and the **ISingleAccountPublicClientApplication** instance is available, you can call the MSAL sign-in feature : 
+
+
+```
+mSingleAccountApp.signIn(activity, null, scopes, new AuthenticationCallback()
+		{
+			@Override
+			public void onCancel()
+			{
+			    /* Operation cancelled by user */
+				mAuthResult = null;
+				mAccount = null;
+				emitter.onError(new Exception("Operation cancelled"));
+			}
+
+			@Override
+			public void onSuccess(IAuthenticationResult authenticationResult)
+			{
+				/* Successfully got a token */
+				Timber.d("Successfully authenticated");
+				mAuthResult = authenticationResult;
+				mAccount = authenticationResult.getAccount();
+				String accessToken = mAuthResult.getAccessToken();
+				...
+			}
+
+			@Override
+			public void onError(MsalException exception)
+			{
+				/* Failed to acquireToken */
+				Timber.e("Authentication failed: %s", exception.toString());
+				...
+			}
+		})
+```
+
+As you can see this method takes 3 mandatory params : 
+
+1. **Activity - activity** : Android Activity
+2. **String[] - scopes** : permissions allowed for generated access token
+3. **AuthenticationCallback - callback** : Listener called by MSAL library with sign-in result
+
+If the sign-in is successful, an *IAuthenticationResult* instance will be returned by the callback. This instance contains an access token (generated using the specified *scopes*), that will allow us to access the secured APIs allowed for this application in the Azure Portal. 
+
+#### <ins>Acquire access token
+
+The next step is to acquire an access token. The MSAL library allows you to access secured APIs using these access token. But you cannot access two different APIs using the same access token. 
+For example if you want to access the MS Graph API then the DTD-Planner API, you will have to use 2 different token. You will have to acquire a token for the Graph APIs using its specific scopes then request the API. Afterwards you will to acquire a new access token for DTD-Planner using its own scopes before you request it.
+
+Here is the MSAL method to acquire an access token : 
+
+```
+mSingleAccountApp.acquireTokenSilentAsync(scopes, mAccount.getAuthority(), new SilentAuthenticationCallback()
+		{
+
+			@Override
+			public void onSuccess(IAuthenticationResult authenticationResult)
+			{
+				/* Successfully got a token */
+				mAuthResult = authenticationResult;
+				mAccount = authenticationResult.getAccount();
+				String accessToken = mAuthResult.getAccessToken();
+				...
+			}
+
+			@Override
+			public void onError(MsalException exception)
+			{
+				/* Failed to acquireToken */
+				Timber.e("Authentication failed: %s", exception.toString());
+				...
+			}
+		})
+```
+
+Scopes for the Graph APIs :
+
+```
+public final static String[] USER_INFOS_SCOPES = {"User.Read", "Calendars.Read"};
+```
+
+
+Scopes for the DTD-Planner APIs :
+
+```
+public final static String[] DTD_PLANNER_SCOPES = {"api://9498ad5c-5a2e-43af-8eca-29d8c52aaf4d/api-access"};
+```
+
+#### <ins>Get User application role :
+
+You can create application scecific user roles using the Azure Portal. In our case, we created two roles :
+
+* **Contributor** : Calendar.Writer
+* **Calendar.Reader** : Calendar.Reader
+
+Once these role are created and user assigned, you can retrieve them using the MSAL library. there user roles are stored in the user account's claims.
+Here is the method to retrieve the user role from the claims : 
+
+```
+    private final static String CLAIM_ROLES_KEY = "roles";
+    
+	public Role getCurrentUserRole()
+	{
+		Role role = Role.DEFAULT_ACCESS;
+
+		if (mAccount == null)
+		{
+			Timber.e("No user account available. Please sign in.");
+			return role;
+		}
+
+
+		/*
+		 * We get the claims from the previously retrieved 'mAccount' instance
+		 */
+		Map<String, ?> claims = mAccount.getClaims();
+		if (claims == null || claims.isEmpty())
+		{
+			return role;
+		}
+
+		if (claims.get(CLAIM_ROLES_KEY) != null)
+		{
+			JSONArray roles = (JSONArray) claims.get(CLAIM_ROLES_KEY);
+			if (roles != null)
+			{
+				role = Role.findByValue((String) roles.get(0));
+			}
+		}
+
+		return role;
+	}
+```
+
+This method returns an instance of *Role* enum, that we user to specify the roles in the application : 
+
+```
+public enum Role
+{
+	DEFAULT_ACCESS(0, "Default Access"),
+	CALENDAR_READER(1, "Calendar.Reader"),
+	CONTRIBUTOR(2, "Calendar.Writer");
+}
+```
+
+As you can see we added an additionnal role (*DEFAULT_ACCESS*), that is used when the user has no specific role assigned.
+
+If needed, you can easily add a new role to the app (after specifying it in the Azure Portal) by adding a new value to the *Role* enum class.
+
+#### <ins>Sign-out User
+
+The MSAL library allows to switch user at while using an application. In order to do so you must sign-out the current user before signing in a new User.
+
+Here is the MSAL method to sign-out users :
+
+```
+mSingleAccountApp.signOut(new ISingleAccountPublicClientApplication.SignOutCallback()
+		{
+			@Override
+			public void onSignOut()
+			{
+				/*
+				 * User is signed out
+				 * clean signed out user infos
+				 */
+				mAccount = null;
+				mAuthResult = null;
+			}
+
+			@Override
+			public void onError(@NonNull MsalException exception)
+			{
+				...
+			}
+		})
+```
+
+This method only takes a *SignOutCallback* as parameter.
+
+## Call secured APIs using MSAL library
+
+In this section will see how to call private APIs using the MSAL access token. In our case we will access 2 APIs : 
+
+* MS Graph API
+* DTD-Planner API
+
+These APIs are requested using HTTP requests. These HTTP calls will be performed using the Android library : *Retrofit*.
+
+### Implement Retrofit
+
+Before calling the APIs using MSAL, we must implement the *Retrofit* library that we will allow us to launch HTTP requests.
+
+#### <ins>Add Retrofit dependencies
+
+First add the library dependency in the *build.gradle* :
+
+```
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.6.2"
+    implementation "com.squareup.retrofit2:converter-jackson:2.3.0"
+    
+    
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+```
+
+#### <ins>Implement OkHttp Client
+
+The first dependency imports the library classes, the JacksonConverter depencency allows implicit JSON parsing using annotations.
+We also add *OkHttp* library to the project. It is the HTTP client used by *Retrofit*.
+
+First you must instanciate an OkHttp instance :
+
+```
+
+//Connect timeout delay in seconds
+static Long CONNECT_TIMEOUT = 30L;
+
+//Read timeout delay in seconds
+static Long READ_TIMEOUT = 30L;
+	
+public final OkHttpClient provideOkHttpClient()
+	{
+		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+		okhttp3.OkHttpClient.Builder builder = new okhttp3.OkHttpClient.Builder() //
+													   .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //
+													   .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS); //
+		builder.addInterceptor(logging);
+		TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager()
+		{
+			@SuppressLint({"TrustAllX509TrustManager"})
+			public void checkClientTrusted(@Nullable X509Certificate[] chain, @Nullable String authType)
+			{
+			}
+
+			@SuppressLint({"TrustAllX509TrustManager"})
+			public void checkServerTrusted(@Nullable X509Certificate[] chain, @Nullable String authType)
+			{
+			}
+
+			@NotNull
+			public X509Certificate[] getAcceptedIssuers()
+			{
+				return new X509Certificate[0];
+			}
+		}};
+		try
+		{
+			SSLContext sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, trustAllCerts, new SecureRandom());
+			SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+			TrustManager trustAllCert = trustAllCerts[0];
+			builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCert);
+		}
+		catch (NoSuchAlgorithmException | KeyManagementException e)
+		{
+			if(BuildConfig.DEBUG){
+				e.printStackTrace();
+			}
+		}
+		return builder.build();
+	}
+```
+
+This snippet creates an *OkHttpClient* instance that will be able to handle HTTPS request by specifying an *SSLContext*. The *OkHttp* library allows us to check servers certificates using the *TrustManager* class, in our case we will allow all certificates.
+
+Now let's define the Retrofit interfaces that will be used to launch the HTTP request. 
+In our case we create 2 different Retrofit interfaces because each one has a different base URL, one for the MS Graph API, the second for the DTD-Planner API.
+
+#### <ins>MS Graph API interface : 
+
+```
+public interface MSGraphRetrofitApi
+{
+
+	@GET(REQUEST_ME_URL)
+	@NotNull
+	Call<UserDto> me(@Header("Authorization") String headerAuth);
+
+
+	@GET(REQUEST_EVENTS_URL)
+	@NotNull
+	Call<EventListDto> events(@Header("Authorization") String headerAuth);
+
+
+	@GET(REQUEST_EVENTS_TIMEFRAME_URL)
+	@NotNull
+	Call<EventListDto> eventsWithTimeFrame(@Header("Authorization") String headerAuth, @Query("startdatetime") String startTime, @Query("enddatetime") String endTime);
+}
+```
+
+This Retrofit interface defines 3 HTTP requests :
+
+* **me**: returns the user infos
+* **events**: returns the user meeting events
+* **eventsWithTimeFrame**: returns the user meeting events within the specified time frame
+
+For each method :
+
+* **@GET("url")** : 
+    * Annotation that defines this request as a 'GET' HTTP request.
+    * Defines the HTTP request URL
+* **headerAuth** : access token retrieved using the MSAL library.
+
+#### <ins>DTD Planner API interface : 
+
+```
+public interface DtdPlannerRetrofitApi
+{
+	@GET(REQUEST_PUBLIC_HOLIDAYS_URL)
+	@NotNull
+	Call<List<PublicHolidayDto>> fetchPublicHolidays(@Header("Authorization") String headerAuth);
+}
+```
+This Retrofit interface defines 1 HTTP request :
+
+* **fetchPublicHolidays**: Retrieves a list of public holidays
+
+All these interfaces are using URL defined in a single **NetworkConstants** class : 
+
+```
+public class NetworkConstants
+{
+	/*
+	 * MS Graph URLs
+	 */
+	public static final String MS_GRAPH_ROOT_ENDPOINT = "https://graph.microsoft.com/";
+
+	public static final String REQUEST_ME_URL = "v1.0/me";
+	public static final String REQUEST_EVENTS_URL = "v1.0/me/events";
+	public static final String REQUEST_EVENTS_TIMEFRAME_URL = "v1.0/me/calendarview";
+
+	/*
+	 * DTD Planner URLs
+	 */
+	public static final String DTD_PLANNER_ENDPOINT = "https://dtdplanner-api.arcelormittal.net/api/v1/";
+
+	public static final String REQUEST_PUBLIC_HOLIDAYS_URL = "Holidays/period/2021/2022";
+}
+```
+
+#### <ins>Retrofit instances
+
+Finally we can create the *Retrofit* instances using the previously created **OkHttp Client** and the **Retrofit Interfaces** :
+
+```
+	public final RetrofitApi provideRetrofitApi(OkHttpClient okHttpClient)
+	{
+		Retrofit retrofit = new Retrofit.Builder() //
+									.client(okHttpClient) //
+									.baseUrl(NetworkConstants.MS_GRAPH_ROOT_ENDPOINT) //
+									.addConverterFactory(JacksonConverterFactory.create()).build(); //
+		return retrofit.create(RetrofitApi.class);
+	}
+
+	public final DtdPlannerRetrofitApi provideDtdPlannerRetrofitApi(OkHttpClient okHttpClient)
+	{
+		Retrofit retrofit = new Retrofit.Builder() //
+									.client(okHttpClient) //
+									.baseUrl(NetworkConstants.DTD_PLANNER_ENDPOINT) //
+									.addConverterFactory(JacksonConverterFactory.create()).build(); //
+		return retrofit.create(DtdPlannerRetrofitApi.class);
+	}
+```
+
+These instances can now be used to request the secures APIs using HTTP request.
+
+### Request secured APIs 
+
+Here are examples of how to request secured APIs using Retrofit and MSAL access token.
+In these examples, we will use **RxJava** framework to launch requests in background threads.
+
+First let's request the user infos using the MSGraph API :
+
+```
+private Observable<User> fetchUserInfosFromRemoteServer(String accessToken)
+	{
+
+		return Observable.create(emitter->{
+			try
+			{
+				String authHeader = "Bearer " + accessToken;
+				/*
+				 * Launch HTTP request
+				 */
+				Response<UserDto> response = mGraphRetrofitApi.me(authHeader).execute();
+				
+				/*
+				 * Check if the call was successful
+				 */
+				if (response.isSuccessful())
+				{
+					UserDto userDto = response.body();
+					/*
+					 * Map the DTO object into our data model object
+					 */
+					mCurrentUser = UserMapper.mapDto(userDto);
+
+					/*
+					 * Extract user role from the Account instance retrieved during user sign-in
+					 */
+					mCurrentUser.setRole(mMicrosoftLoginHelper.getCurrentUserRole());
+
+					emitter.onNext(mCurrentUser);
+					emitter.onComplete();
+				}
+				else
+				{
+					/*
+					 * Handle HTTP error returned by remote server
+					 */
+					Exception exception;
+					if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
+					{
+						exception = new IOException("User access unauthorized");
+					}
+					else
+					{
+						exception = new IOException("An error occurred during user infos request");
+					}
+
+					emitter.onError(exception);
+				}
+			}
+			/*
+			 * Handle generic exceptions thrown by the HTTP call (TimeOut, No Network...)
+			 */
+			catch (ConnectException | SocketTimeoutException e)
+			{
+				/*
+				 * A time-out occured
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("A network problem occurred.\nPlease try again later."));
+			}
+			catch (UnknownHostException e)
+			{
+				/*
+				 * No network available
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("No network available.\nPlease try again later."));
+			}
+			catch (Exception e)
+			{
+				/*
+				 * Any other generic exception
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("An error occurred during user infos request"));
+			}
+		});
+	}
+```
+
+First we build the HTTP header using the MSAL access token : 
+
+```
+String authHeader = "Bearer " + accessToken;
+```
+
+Then we launch the HTTP request towards the MS Graph API : 
+
+```
+Response<UserDto> response = mGraphRetrofitApi.me(authHeader).execute();
+```
+
+If the request was successful, we retrieve the response and map into the data model object we will be using in the app. Finally we return it using the *RxJava*'s **emitter**
+
+```
+UserDto userDto = response.body();
+mCurrentUser = UserMapper.mapDto(userDto);
+
+mCurrentUser.setRole(mMicrosoftLoginHelper.getCurrentUserRole());
+
+emitter.onNext(mCurrentUser);
+emitter.onComplete();
+```
+
+If the request failed, we handle the 2 cases that can happen.
+
+1. The server returned and HTTP error code : 
+```
+Exception exception;
+if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
+{
+    exception = new IOException("User access unauthorized");
+}
+else
+{
+    exception = new IOException("An error occurred during user infos request");
+}
+emitter.onError(exception);
+```
+
+
+2. The HTTP request throws an exception, we handle in the *catch block* : 
+```
+catch (ConnectException | SocketTimeoutException e)
+{
+	/*
+	 * A time-out occured
+	 */
+	Timber.e(e);
+	emitter.onError(new IOException("A network problem occurred.\nPlease try again later."));
+}
+catch (UnknownHostException e)
+{
+	/*
+	 * No network available
+	 */
+	Timber.e(e);
+	emitter.onError(new IOException("No network available.\nPlease try again later."));
+}
+catch (Exception e)
+{
+	/*
+	 * Any other generic exception
+	 */
+	Timber.e(e);
+	emitter.onError(new IOException("An error occurred during user infos request"));
+}
+```
+
+The mechanism to request the DTD Planner API is very similar, here is an example : 
+
+```
+
+	public Observable<List<PublicHoliday>> fetchPublicHolidaysFromRemoteServer(String accessToken)
+	{
+		return Observable.create(emitter->{
+			try
+			{
+				String authHeader = "Bearer " + accessToken;
+				Response<List<PublicHolidayDto>> response = mDtdPlannerRetrofitApi.fetchPublicHolidays(authHeader).execute();
+
+				if (response.isSuccessful())
+				{
+					assert response.body() != null;
+					List<PublicHoliday> holidayList = response.body().stream() //
+															  .map(PublicHolidayMapper::mapDto) //
+															  .collect(Collectors.toList());
+
+					emitter.onNext(holidayList);
+					emitter.onComplete();
+				}
+				else
+				{
+					Exception exception;
+					if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
+					{
+						exception = new IOException("User access unauthorized");
+					}
+					else
+					{
+						exception = new IOException("An error occurred during public holidays request");
+					}
+
+					emitter.onError(exception);
+				}
+			}
+			catch (ConnectException | SocketTimeoutException e)
+			{
+				Timber.e(e);
+				emitter.onError(new IOException("A network problem occurred.\nPlease try again later."));
+			}
+			catch (UnknownHostException e)
+			{
+				Timber.e(e);
+				emitter.onError(new IOException("No network available.\nPlease try again later."));
+			}
+			catch (Exception e)
+			{
+				Timber.e(e);
+				emitter.onError(new IOException("An error occurred during public holidays request"));
+			}
+		});
+	}
+```
+
+The main difference is that we use the **mDtdPlannerRetrofitApi** instance instead of the **mGraphRetrofitApi**.
+
+### Add a new MSGraph API request
+
+Here is an example how to implement an new MSGraph API request. The steps are the same for a new DTD-Planner request.
+
+1. <ins>Create the DTO class :
+```
+@JsonIgnoreProperties(ignoreUnknown = true) public class ExampleDto
+{
+	private String dtoField1;
+	private String dtoField2;
+	private String dtoField3;
+
+	public ExampleDto(String dtoField1, String dtoField2, String dtoField3)
+	{
+		this.dtoField1 = dtoField1;
+		this.dtoField2 = dtoField2;
+		this.dtoField3 = dtoField3;
+	}
+
+	public String getDtoField1()
+	{
+		return dtoField1;
+	}
+
+	public void setDtoField1(String dtoField1)
+	{
+		this.dtoField1 = dtoField1;
+	}
+
+	public String getDtoField2()
+	{
+		return dtoField2;
+	}
+
+	public void setDtoField2(String dtoField2)
+	{
+		this.dtoField2 = dtoField2;
+	}
+
+	public String getDtoField3()
+	{
+		return dtoField3;
+	}
+
+	public void setDtoField3(String dtoField3)
+	{
+		this.dtoField3 = dtoField3;
+	}
+}
+```
+You must create a constructor with all fields. This contructor will be used by the **Jackson** parser library to automatically parse the server JSON response.
+
+2. <ins>Create the data model :
+```
+public class Example
+{
+	private String field1;
+	private String field2;
+
+	public Example(String field1, String field2)
+	{
+		this.field1 = field1;
+		this.field2 = field2;
+	}
+
+	public String getField1()
+	{
+		return field1;
+	}
+
+	public void setField1(String field1)
+	{
+		this.field1 = field1;
+	}
+
+	public String getField2()
+	{
+		return field2;
+	}
+
+	public void setField2(String field2)
+	{
+		this.field2 = field2;
+	}
+}
+```
+We create both *DTO* and *Data Model* classes because the object sent by the server may contain a lot of fields that we won't need in our application. <br/>For example the MSGraph **events** contains dozens of fields and inner objects but in our application we display a few fields. 
+<br/>The mapper between the *DTO* and *Data Model* allows us to filter and keep only the fields we need.
+
+
+3. <ins>Create the data mapper:
+```
+public class ExampleMapper
+{
+	public static Example mapDto(ExampleDto exampleDto)
+	{
+		Objects.requireNonNull(exampleDto);
+
+		return new Example(exampleDto.getDtoField1(), exampleDto.getDtoField2());
+	}
+}
+```
+
+4. <ins>Specify the request URL is the **NetworkConstants** class : 
+```
+public static final String REQUEST_EXAMPLE_URL = "v1.0/example";
+```
+
+5. <ins>Add a new call in the MSGraph retrofit interface : 
+```
+@GET(REQUEST_EXAMPLE_URL)
+@NotNull
+Call<EventListDto> exampleRequest(@Header("Authorization") String headerAuth);
+```
+
+6. <ins>Launch the new HTTP request and handle its result : 
+```
+public Observable<Example> fetchExampleFromRemoteServer(String accessToken)
+	{
+
+		return Observable.create(emitter->{
+			try
+			{
+				String authHeader = "Bearer " + accessToken;
+				/*
+				 * Launch HTTP request
+				 */
+				Response<ExampleDto> response = mGraphRetrofitApi.exampleRequest(authHeader).execute();
+
+				/*
+				 * Check if the call was successful
+				 */
+				if (response.isSuccessful())
+				{
+					ExampleDto exampleDto = response.body();
+					/*
+					 * Map the DTO object into our data model object
+					 */
+					Example example = ExampleMapper.mapDto(exampleDto);
+
+					emitter.onNext(example);
+					emitter.onComplete();
+				}
+				else
+				{
+					/*
+					 * Handle HTTP error returned by remote server
+					 */
+					Exception exception;
+					if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
+					{
+						exception = new IOException("User access unauthorized");
+					}
+					else
+					{
+						exception = new IOException("An error occurred during example request");
+					}
+
+					emitter.onError(exception);
+				}
+			}
+			/*
+			 * Handle generic exceptions thrown by the HTTP call (TimeOut, No Network...)
+			 */
+			catch (ConnectException | SocketTimeoutException e)
+			{
+				/*
+				 * A time-out occured
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("A network problem occurred.\nPlease try again later."));
+			}
+			catch (UnknownHostException e)
+			{
+				/*
+				 * No network available
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("No network available.\nPlease try again later."));
+			}
+			catch (Exception e)
+			{
+				/*
+				 * Any other generic exception
+				 */
+				Timber.e(e);
+				emitter.onError(new IOException("An error occurred during example request"));
+			}
+		});
+	}
+```
+
+Now you are done implementing the new MSGraph API request. 
+<br/>You can call the **fetchExampleFromRemoteServer** method and retrieve the new data in a background thread.
