@@ -31,7 +31,7 @@
 
                 <data
                     android:host="com.amf.pocsecured"
-                    android:path="/q+PiRqOdRzucqQyP/OcnNoHD5tg="
+                    android:path="/iTQ9y6D/n/veyYoDfQhhYeN1mgU="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>

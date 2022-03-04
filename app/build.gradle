@@ -6,6 +6,15 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    signingConfigs {
+        config {
+            keyAlias 'alias1'
+            keyPassword 'Password$123'
+            storeFile file("${project.rootDir}/keystore/PocSecuredCertificate")
+            storePassword 'Password$123'
+        }
+    }
+
     defaultConfig {
         applicationId "com.amf.pocsecured"
 
@@ -19,12 +28,17 @@ android {
         testInstrumentationRunner "com.amf.pocsecured.CustomTestRunner"
 
         multiDexEnabled true
+        signingConfig signingConfigs.config
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
