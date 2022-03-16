@@ -1,5 +1,6 @@
 package com.amf.pocsecured.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -8,6 +9,7 @@ import com.amf.pocsecured.model.PublicHoliday;
 import com.amf.pocsecured.model.mapper.PublicHolidayMapper;
 import com.amf.pocsecured.network.DtdPlannerRetrofitApi;
 import com.amf.pocsecured.network.dto.PublicHolidayDto;
+import com.microsoft.identity.client.exception.MsalUiRequiredException;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -44,9 +46,14 @@ public class CalendarRepositoryImpl implements ICalendarRepository
 		mMicrosoftLoginHelper = microsoftLoginHelper;
 	}
 
-	private Observable<String> acquireAccessToken()
+	private Observable<String> acquireAccessTokenSilent()
 	{
 		return mMicrosoftLoginHelper.acquireTokenSilentAsync(MicrosoftLoginHelper.DTD_PLANNER_SCOPES);
+	}
+
+	private Observable<String> acquireAccessTokenInteractive(Activity activity)
+	{
+		return mMicrosoftLoginHelper.acquireTokenInteractive(activity, MicrosoftLoginHelper.DTD_PLANNER_SCOPES);
 	}
 
 	public Observable<List<PublicHoliday>> fetchPublicHolidaysFromRemoteServer(String accessToken)
@@ -109,19 +116,50 @@ public class CalendarRepositoryImpl implements ICalendarRepository
 	@Override
 	public Observable<List<PublicHoliday>> fetchPublicHolidays(Context context)
 	{
-		return acquireAccessToken() //
-					   .observeOn(Schedulers.io())
-					   .flatMap((Function<String, ObservableSource<List<PublicHoliday>>>) accessToken->{
-						   Observable<List<PublicHoliday>> result;
-						   if (!TextUtils.isEmpty(accessToken))
-						   {
-							   result = fetchPublicHolidaysFromRemoteServer(accessToken);
-						   }
-						   else
-						   {
-							   result = Observable.empty();
-						   }
-						   return result;
-					   });
+		return acquireAccessTokenSilent() //
+					   .observeOn(Schedulers.io()).flatMap((Function<String, ObservableSource<List<PublicHoliday>>>) accessToken->{
+					Observable<List<PublicHoliday>> result;
+					if (!TextUtils.isEmpty(accessToken))
+					{
+						result = fetchPublicHolidaysFromRemoteServer(accessToken);
+					}
+					else
+					{
+						result = Observable.empty();
+					}
+					return result;
+				}).onErrorResumeNext(throwable->{
+					Observable<List<PublicHoliday>> result = null;
+					if (throwable instanceof MsalUiRequiredException)
+					{
+						String errorMessage = ((MsalUiRequiredException) throwable).getErrorCode();
+						if (errorMessage != null && errorMessage.equals(MicrosoftLoginHelper.ERROR_INVALID_GRANT))
+						{
+							result = fetchPublicHolidaysInteractive(context);
+						}
+					}
+					if (result == null)
+					{
+						result = Observable.error(throwable);
+					}
+					return result;
+				});
+	}
+
+	public Observable<List<PublicHoliday>> fetchPublicHolidaysInteractive(Context context)
+	{
+		return acquireAccessTokenInteractive((Activity) context) //
+					   .observeOn(Schedulers.io()).flatMap((Function<String, ObservableSource<List<PublicHoliday>>>) accessToken->{
+					Observable<List<PublicHoliday>> result;
+					if (!TextUtils.isEmpty(accessToken))
+					{
+						result = fetchPublicHolidaysFromRemoteServer(accessToken);
+					}
+					else
+					{
+						result = Observable.empty();
+					}
+					return result;
+				});
 	}
 }

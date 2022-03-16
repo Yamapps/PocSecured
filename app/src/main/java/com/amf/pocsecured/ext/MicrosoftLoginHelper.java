@@ -40,6 +40,8 @@ import timber.log.Timber;
 	public final static String[] USER_INFOS_SCOPES = {"User.Read", "Calendars.Read"};
 	public final static String[] DTD_PLANNER_SCOPES = {"api://9498ad5c-5a2e-43af-8eca-29d8c52aaf4d/api-access"};
 
+	public final static String ERROR_INVALID_GRANT = "invalid_grant";
+
 	private final static String CLAIM_ROLES_KEY = "roles";
 
 	/* Azure AD v2 Configs */
@@ -121,8 +123,9 @@ import timber.log.Timber;
 	}
 
 	/**
-	 * Acquires access token for specified scopes.
+	 * Silently acquires access token for specified scopes.
 	 *
+	 * @param scopes {@link String} array with specified API scopes
 	 * @return {@link Observable}<{@link String}> access token
 	 */
 	public Observable<String> acquireTokenSilentAsync(String[] scopes)
@@ -137,6 +140,56 @@ import timber.log.Timber;
 		}
 		return Observable.create(emitter->mSingleAccountApp.acquireTokenSilentAsync(scopes, mAccount.getAuthority(), new SilentAuthenticationCallback()
 		{
+
+			@Override
+			public void onSuccess(IAuthenticationResult authenticationResult)
+			{
+				/* Successfully got a token */
+				mAuthResult = authenticationResult;
+				mAccount = authenticationResult.getAccount();
+				String accessToken = mAuthResult.getAccessToken();
+				emitter.onNext(accessToken);
+				emitter.onComplete();
+			}
+
+			@Override
+			public void onError(MsalException exception)
+			{
+				/* Failed to acquireToken */
+				Timber.e("Authentication failed: %s", exception.toString());
+				emitter.onError(exception);
+			}
+		}));
+	}
+
+	/**
+	 * Interactively acquires access token for specified scopes.
+	 *
+	 * @param activity current {@link Activity}
+	 * @param scopes {@link String} array with specified API scopes
+	 * @return {@link Observable}<{@link String}> access token
+	 */
+	public Observable<String> acquireTokenInteractive(Activity activity, String[] scopes)
+	{
+		if (mSingleAccountApp == null)
+		{
+			return Observable.error(new IllegalStateException("Missing MSAL public account application"));
+		}
+		if (mAccount == null)
+		{
+			return Observable.error(new IllegalStateException("Missing MSAL user account"));
+		}
+		return Observable.create(emitter->mSingleAccountApp.acquireToken(activity, scopes, new AuthenticationCallback()
+		{
+
+			@Override
+			public void onCancel()
+			{
+				/* Operation cancelled by user */
+				mAuthResult = null;
+				mAccount = null;
+				emitter.onError(new Exception("Operation cancelled"));
+			}
 
 			@Override
 			public void onSuccess(IAuthenticationResult authenticationResult)
